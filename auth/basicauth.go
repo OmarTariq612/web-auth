@@ -62,4 +62,11 @@ func (auth *basicAuth) Authenticate(next http.Handler) http.Handler {
 	})
 }
 
+// No-op middleware
+func (auth *basicAuth) GenerateAuthToken(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		next.ServeHTTP(w, r)
+	})
+}
+
 var _ Auth = (*basicAuth)(nil)

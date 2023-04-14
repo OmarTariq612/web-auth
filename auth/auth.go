@@ -7,6 +7,7 @@ import (
 type Auth interface {
 	// middleware that authenticates users
 	Authenticate(http.Handler) http.Handler
+	GenerateAuthToken(http.Handler) http.Handler
 }
 
 type contextKey string
