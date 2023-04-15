@@ -6,6 +6,7 @@ import (
 
 	"github.com/OmarTariq612/web-auth/auth"
 	"github.com/OmarTariq612/web-auth/data"
+	"github.com/joho/godotenv"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -28,6 +29,11 @@ func (app *application) serve() error {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
 	db, err := sql.Open("sqlite3", "database.db")
 	if err != nil {
 		panic(err)
@@ -37,7 +43,8 @@ func main() {
 	models := data.NewModels(db)
 
 	// app := &application{Auth: auth.NewBasicAuth(models.UserDao), Models: models}
-	app := &application{Auth: auth.NewStatefulAuth(models.UserDao, models.TokenDao), Models: models}
+	// app := &application{Auth: auth.NewStatefulAuth(models.UserDao, models.TokenDao), Models: models}
+	app := &application{Auth: auth.NewStatelessAuth(models.UserDao), Models: models}
 
 	if err := app.serve(); err != nil {
 		panic(err)

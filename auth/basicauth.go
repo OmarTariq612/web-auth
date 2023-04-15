@@ -20,11 +20,11 @@ func NewBasicAuth(userdao data.UserDao) *basicAuth {
 }
 
 func (auth *basicAuth) extractAuthToken(r *http.Request) (*data.User, bool) {
-	authToken := r.Header.Get("Authorization")
-	if authToken == "" {
+	authTokenHeader := r.Header.Get("Authorization")
+	if authTokenHeader == "" {
 		return nil, false
 	}
-	params := strings.Split(authToken, " ")
+	params := strings.Split(authTokenHeader, " ")
 	if params[0] != "Basic" {
 		return nil, false
 	}
