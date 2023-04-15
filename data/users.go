@@ -75,3 +75,20 @@ func (m UserModel) GetByUsername(username string) (*User, error) {
 
 	return &user, nil
 }
+
+func (m UserModel) GetByID(id int64) (*User, error) {
+	query := `
+	SELECT id, username, password_hash
+	FROM users
+	WHERE id = ?`
+
+	var user User
+
+	if err := m.DB.QueryRow(query, id).Scan(&user.ID, &user.Username, &user.Password.hash); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+var _ UserDao = (*UserModel)(nil)

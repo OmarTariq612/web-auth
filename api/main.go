@@ -36,7 +36,8 @@ func main() {
 
 	models := data.NewModels(db)
 
-	app := &application{Auth: auth.NewBasicAuth(models.UserDao), Models: models}
+	// app := &application{Auth: auth.NewBasicAuth(models.UserDao), Models: models}
+	app := &application{Auth: auth.NewStatefulAuth(models.UserDao, models.TokenDao), Models: models}
 
 	if err := app.serve(); err != nil {
 		panic(err)
